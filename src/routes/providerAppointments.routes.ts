@@ -30,10 +30,16 @@ providerAppointmentsRouter.get(
           where: {
             date: Between(startOfDay(parsedDate), endOfDay(parsedDate)),
           },
+          order: {
+            date: 'ASC',
+          },
         })
       : await appointmentsRepository.find({
           relations: ['user', 'status'],
           select: ['id', 'user_id', 'date', 'subject'],
+          order: {
+            date: 'ASC',
+          },
         });
 
     return response.json(appointments);
