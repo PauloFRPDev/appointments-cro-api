@@ -34,7 +34,7 @@ class CreateUserService {
 
     const user = usersRepository.create({
       name,
-      email,
+      email: email.toLowerCase(),
       password: hashedPassword,
       isProvider,
     });
