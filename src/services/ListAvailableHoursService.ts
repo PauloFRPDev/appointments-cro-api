@@ -63,7 +63,13 @@ class CreateUserService {
       return {
         time,
         value: format(value, "yyyy-MM-dd'T'HH:mm:ssxxx"),
-        available: isAfter(value, new Date()) && count < 2,
+        available:
+          isAfter(value, new Date()) &&
+          count < 2 &&
+          !format(value, "yyyy-MM-dd'T'HH:mm:ssxxx-EEEE").includes(
+            'Saturday',
+          ) &&
+          !format(value, "yyyy-MM-dd'T'HH:mm:ssxxx-EEEE").includes('Sunday'),
       };
     });
 
