@@ -33,7 +33,16 @@ class CreateUserService {
       },
     });
 
-    const schedule = ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00'];
+    const schedule = [
+      '09:00',
+      '10:00',
+      '11:00',
+      '12:00',
+      '13:00',
+      '14:00',
+      '15:00',
+      '16:00',
+    ];
 
     const availableDates = schedule.map(time => {
       const [hour, minute] = time.split(':');
