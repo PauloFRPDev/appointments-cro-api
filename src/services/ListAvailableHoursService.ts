@@ -59,16 +59,6 @@ class CreateUserService {
           appointment.status_id !== 5
         ) {
           if (
-            String(format(appointment.date, 'HH:mm')).includes('13:00') &&
-            (format(value, "yyyy-MM-dd'T'HH:mm:ssxxx-EEEE").includes(
-              'Tuesday',
-            ) ||
-              format(value, "yyyy-MM-dd'T'HH:mm:ssxxx-EEEE").includes(
-                'Thursday',
-              ))
-          ) {
-            count += 3;
-          } else if (
             String(format(appointment.date, 'HH:mm')).includes('12:00') ||
             String(format(appointment.date, 'HH:mm')).includes('13:00')
           ) {
@@ -83,20 +73,12 @@ class CreateUserService {
         time,
         value: format(value, "yyyy-MM-dd'T'HH:mm:ssxxx"),
         available:
-          format(value, "yyyy-MM-dd'T'HH:mm:ssxxx-EEEE").includes('Monday') ||
-          format(value, "yyyy-MM-dd'T'HH:mm:ssxxx-EEEE").includes(
-            'Wednesday',
-          ) ||
-          format(value, "yyyy-MM-dd'T'HH:mm:ssxxx-EEEE").includes('Friday') ||
-          format(value, "yyyy-MM-dd'T'HH:mm:ssxxx-EEEE").includes('Saturday') ||
-          format(value, "yyyy-MM-dd'T'HH:mm:ssxxx-EEEE").includes('Sunday')
-            ? isAfter(value, new Date()) &&
-              count < 2 &&
-              !format(value, "yyyy-MM-dd'T'HH:mm:ssxxx-EEEE").includes(
-                'Saturday',
-              ) &&
-              !format(value, "yyyy-MM-dd'T'HH:mm:ssxxx-EEEE").includes('Sunday')
-            : isAfter(value, new Date()) && count < 3,
+          isAfter(value, new Date()) &&
+          count < 2 &&
+          !format(value, "yyyy-MM-dd'T'HH:mm:ssxxx-EEEE").includes(
+            'Saturday',
+          ) &&
+          !format(value, "yyyy-MM-dd'T'HH:mm:ssxxx-EEEE").includes('Sunday'),
       };
     });
 
