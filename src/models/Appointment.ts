@@ -10,6 +10,7 @@ import {
 
 import User from './User';
 import Status from './Status';
+import Sectors from './Sectors';
 
 @Entity('appointments')
 class Appointment {
@@ -31,14 +32,21 @@ class Appointment {
   user: User;
 
   @Column()
-  status_id: number;
+  subject: string;
 
   @Column()
-  subject: string;
+  status_id: number;
 
   @ManyToOne(() => Status)
   @JoinColumn({ name: 'status_id' })
   status: Status;
+
+  @Column()
+  sector_id: number;
+
+  @ManyToOne(() => Status)
+  @JoinColumn({ name: 'sector_id' })
+  sector: Sectors;
 
   @Column('timestamp with time zone')
   date: Date;
