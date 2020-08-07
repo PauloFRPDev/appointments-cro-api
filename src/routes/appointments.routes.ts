@@ -17,15 +17,11 @@ appointmentsRouter.get('/', async (request, response) => {
 
   const { future } = request.query;
 
-  // const [day, month, year] = dateSearched.split('/');
-
-  // const parsedDate = parseISO(`${year}-${month}-${day}`);
-
   const appointments =
     future === 'true'
       ? await appointmentsRepository.find({
           select: ['id', 'date'],
-          relations: ['status'],
+          relations: ['status', 'sector'],
           where: {
             user_id: request.user.id,
             date: MoreThan(new Date()),
@@ -36,7 +32,7 @@ appointmentsRouter.get('/', async (request, response) => {
         })
       : await appointmentsRepository.find({
           select: ['id', 'date'],
-          relations: ['status'],
+          relations: ['status', 'sector'],
           where: {
             user_id: request.user.id,
           },
@@ -49,7 +45,7 @@ appointmentsRouter.get('/', async (request, response) => {
 });
 
 appointmentsRouter.post('/', async (request, response) => {
-  const { date, subject } = request.body;
+  const { date, subject, sector_id } = request.body;
 
   const parsedDate = parseISO(date);
 
@@ -60,6 +56,7 @@ appointmentsRouter.post('/', async (request, response) => {
     date: parsedDate,
     subject,
     status_id: 1,
+    sector_id,
   });
 
   return response.json(appointment);

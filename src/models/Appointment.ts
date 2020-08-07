@@ -44,7 +44,7 @@ class Appointment {
   @Column()
   sector_id: number;
 
-  @ManyToOne(() => Status)
+  @ManyToOne(() => Sectors)
   @JoinColumn({ name: 'sector_id' })
   sector: Sectors;
 

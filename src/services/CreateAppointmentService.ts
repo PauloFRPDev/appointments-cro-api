@@ -11,6 +11,7 @@ interface Request {
   date: Date;
   subject: string;
   status_id: number;
+  sector_id: number;
 }
 
 class CreateAppointmentService {
@@ -19,6 +20,7 @@ class CreateAppointmentService {
     date,
     subject,
     status_id,
+    sector_id,
   }: Request): Promise<Appointment> {
     const appointmentsRepository = getCustomRepository(AppointmentsRepository);
 
@@ -30,11 +32,15 @@ class CreateAppointmentService {
       );
     }
 
+    if (!sector_id) {
+      throw new AppError('You must select an sector');
+    }
+
     const findAppointmentsInSameDate = await appointmentsRepository.findByDateAndNotCanceled(
       appointmentDate,
     );
 
-    if (findAppointmentsInSameDate.length >= 4) {
+    if (findAppointmentsInSameDate.length >= 2) {
       throw new AppError('All available times are already booked.');
     }
 
@@ -43,6 +49,7 @@ class CreateAppointmentService {
       date: appointmentDate,
       subject,
       status_id,
+      sector_id,
     });
 
     await appointmentsRepository.save(appointment);
