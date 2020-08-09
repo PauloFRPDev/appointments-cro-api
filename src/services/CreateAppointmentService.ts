@@ -36,11 +36,12 @@ class CreateAppointmentService {
       throw new AppError('You must select an sector');
     }
 
-    const findAppointmentsInSameDate = await appointmentsRepository.findByDateAndNotCanceled(
+    const findAppointmentsInSameDateAndSector = await appointmentsRepository.findByDateAndNotCanceled(
       appointmentDate,
+      sector_id,
     );
 
-    if (findAppointmentsInSameDate.length >= 2) {
+    if (findAppointmentsInSameDateAndSector.length >= 2) {
       throw new AppError('All available times are already booked.');
     }
 

@@ -13,6 +13,7 @@ import AppointmentsRepository from '../repositories/AppointmentsRepository';
 
 interface Request {
   date: string;
+  sector_id: number;
 }
 
 interface AvailableDate {
@@ -22,7 +23,7 @@ interface AvailableDate {
 }
 
 class CreateUserService {
-  public async execute({ date }: Request): Promise<AvailableDate[]> {
+  public async execute({ date, sector_id }: Request): Promise<AvailableDate[]> {
     const appointmentsRepository = getCustomRepository(AppointmentsRepository);
 
     const searchDate = Number(date);
@@ -30,6 +31,7 @@ class CreateUserService {
     const appointments = await appointmentsRepository.find({
       where: {
         date: Between(startOfDay(searchDate), endOfDay(searchDate)),
+        sector_id,
       },
     });
 

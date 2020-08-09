@@ -9,12 +9,13 @@ const availablesRouter = Router();
 availablesRouter.use(ensureAuthenticated);
 
 availablesRouter.get('/', async (request, response) => {
-  const { date } = request.query;
+  const { date, sector_id } = request.query;
 
   const listAppointments = new ListAvailableHoursService();
 
   const available = await listAppointments.execute({
     date: String(date),
+    sector_id: Number(sector_id),
   });
 
   return response.json(available);
