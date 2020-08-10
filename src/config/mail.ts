@@ -1,18 +1,21 @@
-class MailConfig {
-  public host = process.env.MAIL_HOST;
-
-  public port = process.env.MAIL_PORT;
-
-  public secure: false;
-
-  public auth = {
-    user: process.env.MAIL_USER,
-    pass: process.env.MAIL_PASS,
-  };
-
-  public default = {
-    from: 'CRO-RJ <envia@cro-rj.org.br>',
+interface MailConfigDTO {
+  host: string;
+  port: number;
+  secure: boolean;
+  auth: {
+    user: string;
+    pass: string;
   };
 }
 
-export default new MailConfig();
+const MailConfig = {
+  host: process.env.MAIL_HOST,
+  port: Number(process.env.MAIL_PORT),
+  secure: false,
+  auth: {
+    user: process.env.MAIL_USER,
+    pass: process.env.MAIL_PASS,
+  },
+} as MailConfigDTO;
+
+export default MailConfig;

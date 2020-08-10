@@ -11,6 +11,14 @@ class UsersRepository extends Repository<User> {
 
     return findUser || null;
   }
+
+  public async findByEmail(email: string): Promise<User | null> {
+    const findUser = await this.findOne({
+      where: { email },
+    });
+
+    return findUser || null;
+  }
 }
 
 export default UsersRepository;
