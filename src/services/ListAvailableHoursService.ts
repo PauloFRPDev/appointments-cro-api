@@ -9,7 +9,7 @@ import {
   endOfDay,
 } from 'date-fns';
 
-import { AttendanceHour, LibraryHour } from '../config/available';
+import { AttendanceHour, LibraryHour, TimeDTO } from '../config/available';
 
 import AppointmentsRepository from '../repositories/AppointmentsRepository';
 
@@ -22,11 +22,6 @@ interface AvailableDate {
   time: string;
   value: string;
   available: boolean;
-}
-
-interface ScheduleData {
-  hour: string;
-  appointmentQuantity: number;
 }
 
 class CreateUserService {
@@ -42,7 +37,7 @@ class CreateUserService {
       },
     });
 
-    let schedule = [] as ScheduleData[];
+    let schedule = [] as TimeDTO[];
 
     switch (sector_id) {
       case 1:

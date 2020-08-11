@@ -1,4 +1,4 @@
-interface TimeDTO {
+export interface TimeDTO {
   hour: string;
   appointmentQuantity: number;
 }

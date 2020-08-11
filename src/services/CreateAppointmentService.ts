@@ -1,10 +1,12 @@
-import { isBefore, setSeconds } from 'date-fns';
+import { isBefore, setSeconds, format } from 'date-fns';
 import { getCustomRepository } from 'typeorm';
 
 import AppError from '../errors/AppError';
 
 import Appointment from '../models/Appointment';
 import AppointmentsRepository from '../repositories/AppointmentsRepository';
+
+import { AttendanceHour, LibraryHour, TimeDTO } from '../config/available';
 
 interface Request {
   user_id: string;
@@ -41,7 +43,29 @@ class CreateAppointmentService {
       sector_id,
     );
 
-    if (findAppointmentsInSameDateAndSector.length >= 2) {
+    let sectorDaySchedule = [] as TimeDTO[];
+
+    switch (sector_id) {
+      case 1:
+        sectorDaySchedule = AttendanceHour;
+        break;
+      case 2:
+        sectorDaySchedule = LibraryHour;
+        break;
+      default:
+        break;
+    }
+
+    const parsedTime = format(date, 'HH:mm');
+
+    const selectedHour = sectorDaySchedule.find(
+      time => time.hour === parsedTime,
+    );
+
+    if (
+      findAppointmentsInSameDateAndSector.length >=
+      Number(selectedHour?.appointmentQuantity)
+    ) {
       throw new AppError('All available times are already booked.');
     }
 
