@@ -18,13 +18,14 @@ passwordRouter.post('/forgot', async (request, response) => {
 });
 
 passwordRouter.post('/reset', async (request, response) => {
-  const { token, password } = request.body;
+  const { token, password, password_confirmation } = request.body;
 
   const resetPassword = new ResetPasswordService();
 
   await resetPassword.execute({
     token,
     password,
+    password_confirmation,
   });
 
   return response.status(204).json();

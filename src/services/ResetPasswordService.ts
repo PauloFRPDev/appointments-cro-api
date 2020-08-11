@@ -11,10 +11,15 @@ import HashProvider from '../providers/HashProvider';
 interface Request {
   token: string;
   password: string;
+  password_confirmation: string;
 }
 
 class ResetPasswordService {
-  public async execute({ token, password }: Request): Promise<void | null> {
+  public async execute({
+    token,
+    password,
+    password_confirmation,
+  }: Request): Promise<void | null> {
     const usersRepository = getCustomRepository(UsersRepository);
     const userTokensRepository = getCustomRepository(UserTokensRepository);
 
@@ -37,6 +42,10 @@ class ResetPasswordService {
 
     if (isAfter(Date.now(), compareDate)) {
       throw new AppError('Token expired');
+    }
+
+    if (password !== password_confirmation) {
+      throw new AppError('Password and password confirmation must match');
     }
 
     user.password = await hashProvider.generateHash(password);
