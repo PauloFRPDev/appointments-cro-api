@@ -9,6 +9,8 @@ import {
   endOfDay,
 } from 'date-fns';
 
+import { AttendanceHour, LibraryHour } from '../config/available';
+
 import AppointmentsRepository from '../repositories/AppointmentsRepository';
 
 interface Request {
@@ -20,6 +22,11 @@ interface AvailableDate {
   time: string;
   value: string;
   available: boolean;
+}
+
+interface ScheduleData {
+  hour: string;
+  appointmentQuantity: number;
 }
 
 class CreateUserService {
@@ -35,19 +42,21 @@ class CreateUserService {
       },
     });
 
-    const schedule = [
-      '09:00',
-      '10:00',
-      '11:00',
-      '12:00',
-      '13:00',
-      '14:00',
-      '15:00',
-      '16:00',
-    ];
+    let schedule = [] as ScheduleData[];
+
+    switch (sector_id) {
+      case 1:
+        schedule = AttendanceHour;
+        break;
+      case 2:
+        schedule = LibraryHour;
+        break;
+      default:
+        break;
+    }
 
     const availableDates = schedule.map(time => {
-      const [hour, minute] = time.split(':');
+      const [hour, minute] = time.hour.split(':');
       const value = setSeconds(
         setMinutes(setHours(searchDate, Number(hour)), Number(minute)),
         0,
@@ -57,26 +66,19 @@ class CreateUserService {
 
       appointments.forEach(appointment => {
         if (
-          format(appointment.date, 'HH:mm') === time &&
+          format(appointment.date, 'HH:mm') === time.hour &&
           appointment.status_id !== 5
         ) {
-          if (
-            String(format(appointment.date, 'HH:mm')).includes('12:00') ||
-            String(format(appointment.date, 'HH:mm')).includes('13:00')
-          ) {
-            count += 2;
-          } else {
-            count += 1;
-          }
+          count += 1;
         }
       });
 
       return {
-        time,
+        time: time.hour,
         value: format(value, "yyyy-MM-dd'T'HH:mm:ssxxx"),
         available:
           isAfter(value, new Date()) &&
-          count < 2 &&
+          count < time.appointmentQuantity &&
           !format(value, "yyyy-MM-dd'T'HH:mm:ssxxx-EEEE").includes(
             'Saturday',
           ) &&
