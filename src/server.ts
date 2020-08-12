@@ -4,7 +4,6 @@ import 'dotenv/config';
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-// import path from 'path';
 import 'express-async-errors';
 import routes from './routes';
 import AppError from './errors/AppError';
@@ -12,10 +11,6 @@ import AppError from './errors/AppError';
 import './database';
 
 const app = express();
-
-// if (process.env.NODE_ENV !== 'development') {
-//   app.use(express.static(path.join(__dirname, 'public')));
-// }
 
 app.use(cors());
 app.use(helmet());
