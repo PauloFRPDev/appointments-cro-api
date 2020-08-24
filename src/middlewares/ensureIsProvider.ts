@@ -5,7 +5,7 @@ import AppError from '../errors/AppError';
 
 import UsersRepository from '../repositories/UsersRepository';
 
-export default async function ensureAuthenticated(
+export default async function ensureIsProvider(
   request: Request,
   response: Response,
   next: NextFunction,
@@ -26,7 +26,7 @@ export default async function ensureAuthenticated(
     }
 
     if (user.isProvider !== 1) {
-      throw new Error();
+      throw new AppError('You must be a provider', 401);
     }
 
     return next();
