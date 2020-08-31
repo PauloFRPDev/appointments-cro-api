@@ -10,7 +10,7 @@ import {
 
 import User from './User';
 import Status from './Status';
-import Sectors from './Sectors';
+import Sector from './Sector';
 
 @Entity('appointments')
 class Appointment {
@@ -44,9 +44,9 @@ class Appointment {
   @Column()
   sector_id: number;
 
-  @ManyToOne(() => Sectors)
+  @ManyToOne(() => Sector)
   @JoinColumn({ name: 'sector_id' })
-  sector: Sectors;
+  sector: Sector;
 
   @Column('timestamp with time zone')
   date: Date;

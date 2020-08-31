@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 
 @Entity('sectors')
-class Sectors {
+class Sector {
   @PrimaryGeneratedColumn()
   id: string;
 
@@ -21,4 +21,4 @@ class Sectors {
   updated_at: Date;
 }
 
-export default Sectors;
+export default Sector;

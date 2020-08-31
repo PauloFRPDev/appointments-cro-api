@@ -4,7 +4,10 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
+import Sector from './Sector';
 
 @Entity('users')
 class User {
@@ -22,6 +25,13 @@ class User {
 
   @Column()
   isProvider: number;
+
+  @Column({ nullable: true })
+  sector_id: number;
+
+  @ManyToOne(() => Sector)
+  @JoinColumn({ name: 'sector_id' })
+  sector: Sector;
 
   @CreateDateColumn()
   created_at: Date;
