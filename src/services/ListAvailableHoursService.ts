@@ -9,7 +9,12 @@ import {
   endOfDay,
 } from 'date-fns';
 
-import { AttendanceHour, LibraryHour, TimeDTO } from '../config/available';
+import {
+  AttendanceHour,
+  LibraryHour,
+  TimeDTO,
+  LibraryStudyHour,
+} from '../config/available';
 
 import AppointmentsRepository from '../repositories/AppointmentsRepository';
 
@@ -45,6 +50,9 @@ class CreateUserService {
         break;
       case 2:
         schedule = LibraryHour;
+        break;
+      case 3:
+        schedule = LibraryStudyHour;
         break;
       default:
         break;

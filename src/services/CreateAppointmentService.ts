@@ -6,7 +6,12 @@ import AppError from '../errors/AppError';
 import Appointment from '../models/Appointment';
 import AppointmentsRepository from '../repositories/AppointmentsRepository';
 
-import { AttendanceHour, LibraryHour, TimeDTO } from '../config/available';
+import {
+  AttendanceHour,
+  LibraryHour,
+  TimeDTO,
+  LibraryStudyHour,
+} from '../config/available';
 
 interface Request {
   user_id: string;
@@ -51,6 +56,9 @@ class CreateAppointmentService {
         break;
       case 2:
         sectorDaySchedule = LibraryHour;
+        break;
+      case 3:
+        sectorDaySchedule = LibraryStudyHour;
         break;
       default:
         break;
