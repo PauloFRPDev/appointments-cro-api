@@ -18,7 +18,7 @@ providerAppointmentsRouter.get(
   '/',
   ensureIsProvider,
   async (request, response) => {
-    const { date, sector } = request.query;
+    const { date, sector = 1 } = request.query;
 
     const parsedDate = Number(date);
 
