@@ -23,7 +23,7 @@ class AuthenticateUserService {
 
     const user = await usersRepository.findOne({
       where: { email },
-      select: ['id', 'email', 'password', 'isProvider', 'name'],
+      select: ['id', 'email', 'password', 'isProvider', 'name', 'sector_id'],
     });
 
     if (!user) {

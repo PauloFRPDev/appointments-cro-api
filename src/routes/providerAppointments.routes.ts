@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getCustomRepository, Between } from 'typeorm';
+import { getCustomRepository, Between, In } from 'typeorm';
 import { startOfDay, endOfDay } from 'date-fns';
 
 import AppointmentsRepository from '../repositories/AppointmentsRepository';
@@ -18,25 +18,35 @@ providerAppointmentsRouter.get(
   '/',
   ensureIsProvider,
   async (request, response) => {
-    const { date } = request.query;
+    const { date, sector } = request.query;
 
     const parsedDate = Number(date);
 
     const appointmentsRepository = getCustomRepository(AppointmentsRepository);
     const appointments = date
       ? await appointmentsRepository.find({
-          relations: ['user', 'status'],
-          select: ['id', 'user_id', 'date', 'subject'],
+          relations: ['user', 'status', 'sector'],
+          select: ['id', 'user_id', 'date', 'subject', 'sector_id', 'sector'],
           where: {
             date: Between(startOfDay(parsedDate), endOfDay(parsedDate)),
+            sector_id:
+              Number(sector) === 2 || Number(sector) === 3
+                ? In([2, 3])
+                : sector,
           },
           order: {
             date: 'ASC',
           },
         })
       : await appointmentsRepository.find({
-          relations: ['user', 'status'],
-          select: ['id', 'user_id', 'date', 'subject'],
+          relations: ['user', 'status', 'sector'],
+          select: ['id', 'user_id', 'date', 'subject', 'sector_id', 'sector'],
+          where: {
+            sector_id:
+              Number(sector) === 2 || Number(sector) === 3
+                ? In([2, 3])
+                : sector,
+          },
           order: {
             date: 'ASC',
           },
