@@ -28,6 +28,10 @@ export default class CreateServiceQueueTable1603476436060
             type: 'uuid',
           },
           {
+            name: 'appointment_id',
+            type: 'uuid',
+          },
+          {
             name: 'isCalling',
             type: 'integer',
             isNullable: true,
@@ -65,6 +69,18 @@ export default class CreateServiceQueueTable1603476436060
         columnNames: ['employee_id'],
         referencedColumnNames: ['id'],
         referencedTableName: 'users',
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE',
+      }),
+    );
+
+    await queryRunner.createForeignKey(
+      'service_queue',
+      new TableForeignKey({
+        name: 'ServiceQueueAppointment',
+        columnNames: ['appointment_id'],
+        referencedColumnNames: ['id'],
+        referencedTableName: 'appointments',
         onDelete: 'SET NULL',
         onUpdate: 'CASCADE',
       }),

@@ -1,5 +1,6 @@
 import { Router } from 'express';
 
+import serviceQueueRouter from './serviceQueue.routes';
 import appointmentsRouter from './appointments.routes';
 import providerAppointmentsRouter from './providerAppointments.routes';
 import availablesRouter from './availables.routes';
@@ -10,6 +11,7 @@ import passwordRouter from './password.routes';
 const routes = Router();
 
 routes.use('/api/appointments', appointmentsRouter);
+routes.use('/api/service_queue', serviceQueueRouter);
 routes.use('/api/provider/appointments', providerAppointmentsRouter);
 routes.use('/api/availables', availablesRouter);
 routes.use('/api/users', usersRouter);

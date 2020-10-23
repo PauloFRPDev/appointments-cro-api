@@ -8,6 +8,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 
+import Appointment from './Appointment';
 import User from './User';
 
 @Entity('service_queue')
@@ -28,6 +29,13 @@ class ServiceQueue {
   @ManyToOne(() => User)
   @JoinColumn({ name: 'employee_id' })
   employee: User;
+
+  @Column()
+  appointment_id: string;
+
+  @ManyToOne(() => Appointment)
+  @JoinColumn({ name: 'appointment_id' })
+  appointment: Appointment;
 
   @Column()
   isCalling: number;
