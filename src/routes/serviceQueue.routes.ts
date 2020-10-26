@@ -14,9 +14,24 @@ serviceQueueRouter.use(EnsureAuthenticated, EnsureIsProvider);
 serviceQueueRouter.get('/', async (request, response) => {
   const serviceQueueRepository = getRepository(ServiceQueue);
 
-  const serviceQueues = await serviceQueueRepository.find();
+  const serviceQueues = await serviceQueueRepository.find({
+    relations: ['user', 'appointment', 'employee'],
+    order: {
+      created_at: 'DESC',
+    },
+    take: 4,
+  });
 
-  return response.json(serviceQueues);
+  const formattedServiceQueue = serviceQueues.map(serviceQueue => {
+    return {
+      id: serviceQueue.id,
+      date: serviceQueue.appointment.date,
+      employee: serviceQueue.employee.name,
+      user: serviceQueue.user.name,
+    };
+  });
+
+  return response.json(formattedServiceQueue);
 });
 
 serviceQueueRouter.post('/', async (request, response) => {
