@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { getCustomRepository, MoreThan } from 'typeorm';
 import { parseISO } from 'date-fns';
+import { zonedTimeToUtc } from 'date-fns-tz';
 
 import AppointmentsRepository from '../repositories/AppointmentsRepository';
 import CreateAppointmentService from '../services/CreateAppointmentService';
@@ -48,6 +49,9 @@ appointmentsRouter.post('/', async (request, response) => {
   const { date, subject, sector_id } = request.body;
 
   const parsedDate = parseISO(date);
+  const zoneTime = zonedTimeToUtc(parsedDate, 'America/Sao_Paulo');
+
+  console.log(zoneTime);
 
   const createAppointment = new CreateAppointmentService();
 
