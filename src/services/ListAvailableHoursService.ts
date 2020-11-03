@@ -78,14 +78,12 @@ class CreateUserService {
 
       return {
         time: time.hour,
-        value: format(value, "yyyy-MM-dd'T'HH:mm:ssxxx"),
+        value: format(value, "yyyy-MM-dd'T'HH:mm:ss"),
         available:
           isAfter(value, new Date()) &&
           count < time.appointmentQuantity &&
-          !format(value, "yyyy-MM-dd'T'HH:mm:ssxxx-EEEE").includes(
-            'Saturday',
-          ) &&
-          !format(value, "yyyy-MM-dd'T'HH:mm:ssxxx-EEEE").includes('Sunday'),
+          !format(value, "yyyy-MM-dd'T'HH:mm:ss-EEEE").includes('Saturday') &&
+          !format(value, "yyyy-MM-dd'T'HH:mm:ss-EEEE").includes('Sunday'),
       };
     });
 
