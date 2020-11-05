@@ -11,7 +11,7 @@ import passwordRouter from './password.routes';
 const routes = Router();
 
 routes.use('/api/appointments', appointmentsRouter);
-routes.use('/api/service_queue', serviceQueueRouter);
+routes.use('/api/provider/service_queue', serviceQueueRouter);
 routes.use('/api/provider/appointments', providerAppointmentsRouter);
 routes.use('/api/availables', availablesRouter);
 routes.use('/api/users', usersRouter);
