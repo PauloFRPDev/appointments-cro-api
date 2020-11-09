@@ -82,8 +82,10 @@ class CreateUserService {
         available:
           isAfter(value, new Date()) &&
           count < time.appointmentQuantity &&
-          !format(value, "yyyy-MM-dd'T'HH:mm:ss-EEEE").includes('Saturday') &&
-          !format(value, "yyyy-MM-dd'T'HH:mm:ss-EEEE").includes('Sunday'),
+          !format(value, "yyyy-MM-dd'T'HH:mm:ss-EEEExxx").includes(
+            'Saturday',
+          ) &&
+          !format(value, "yyyy-MM-dd'T'HH:mm:ss-EEEExxx").includes('Sunday'),
       };
     });
 
