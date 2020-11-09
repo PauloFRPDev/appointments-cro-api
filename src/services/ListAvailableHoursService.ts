@@ -79,7 +79,10 @@ class CreateUserService {
 
       return {
         time: time.hour,
-        value: format(value, "yyyy-MM-dd'T'HH:mm:ss"),
+        value: format(
+          value.getTimezoneOffset() === 120 ? addHours(value, 1) : value,
+          "yyyy-MM-dd'T'HH:mm:ssxxx",
+        ),
         available:
           isAfter(value, new Date()) &&
           count < time.appointmentQuantity &&
