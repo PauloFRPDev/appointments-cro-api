@@ -7,6 +7,7 @@ import {
   isAfter,
   startOfDay,
   endOfDay,
+  addHours,
 } from 'date-fns';
 
 import {
@@ -60,7 +61,7 @@ class CreateUserService {
 
     const availableDates = schedule.map(time => {
       const [hour, minute] = time.hour.split(':');
-      const value = setSeconds(
+      const valueBeforeTimezone = setSeconds(
         setMinutes(setHours(searchDate, Number(hour)), Number(minute)),
         0,
       );
@@ -75,6 +76,11 @@ class CreateUserService {
           count += 1;
         }
       });
+
+      const value =
+        valueBeforeTimezone.getTimezoneOffset() === 120
+          ? addHours(valueBeforeTimezone, 1)
+          : valueBeforeTimezone;
 
       return {
         time: time.hour,
