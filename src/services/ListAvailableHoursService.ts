@@ -29,7 +29,7 @@ interface AvailableDate {
   available: boolean;
 }
 
-class CreateUserService {
+class ListAvailableHoursService {
   public async execute({ date, sector_id }: Request): Promise<AvailableDate[]> {
     const appointmentsRepository = getCustomRepository(AppointmentsRepository);
 
@@ -93,4 +93,4 @@ class CreateUserService {
   }
 }
 
-export default CreateUserService;
+export default ListAvailableHoursService;
