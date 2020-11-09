@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { getCustomRepository, MoreThan } from 'typeorm';
-import { parseISO, addHours } from 'date-fns';
+import { parseISO } from 'date-fns';
 
 import AppointmentsRepository from '../repositories/AppointmentsRepository';
 import CreateAppointmentService from '../services/CreateAppointmentService';
@@ -47,10 +47,7 @@ appointmentsRouter.get('/', async (request, response) => {
 appointmentsRouter.post('/', async (request, response) => {
   const { date, subject, sector_id } = request.body;
 
-  const parsedDate =
-    parseISO(date).getTimezoneOffset() === 180
-      ? parseISO(date)
-      : addHours(parseISO(date), 1);
+  const parsedDate = parseISO(date);
 
   const createAppointment = new CreateAppointmentService();
 
