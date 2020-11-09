@@ -1,6 +1,5 @@
 import { getCustomRepository, Between } from 'typeorm';
 import {
-  format,
   setSeconds,
   setMinutes,
   setHours,
@@ -8,6 +7,7 @@ import {
   startOfDay,
   endOfDay,
 } from 'date-fns';
+import { utcToZonedTime, format } from 'date-fns-tz';
 
 import {
   AttendanceHour,
@@ -78,7 +78,11 @@ class ListAvailableHoursService {
 
       return {
         time: time.hour,
-        value: format(value, "yyyy-MM-dd'T'HH:mm:ssxxx"),
+        value: format(
+          utcToZonedTime(value, 'America/Sao_Paulo'),
+          "yyyy-MM-dd'T'HH:mm:ssxxx",
+          { timeZone: 'America/Sao_Paulo' },
+        ),
         available:
           isAfter(value, new Date()) &&
           count < time.appointmentQuantity &&
@@ -88,6 +92,8 @@ class ListAvailableHoursService {
           !format(value, "yyyy-MM-dd'T'HH:mm:ss-EEEExxx").includes('Sunday'),
       };
     });
+
+    console.log(availableDates);
 
     return availableDates;
   }
