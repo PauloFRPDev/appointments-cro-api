@@ -91,7 +91,12 @@ class ListAvailableHoursService {
         time: time.hour,
         value: format(value, "yyyy-MM-dd'T'HH:mm:ssxxx"),
         available:
-          isAfter(value, new Date()) &&
+          isAfter(
+            value,
+            new Date().getTimezoneOffset() === 180
+              ? new Date()
+              : addHours(new Date(), 1),
+          ) &&
           count < time.appointmentQuantity &&
           !format(value, "yyyy-MM-dd'T'HH:mm:ss-EEEExxx").includes(
             'Saturday',
