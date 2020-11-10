@@ -7,7 +7,6 @@ import {
   isAfter,
   startOfDay,
   endOfDay,
-  addHours,
 } from 'date-fns';
 
 import {
@@ -61,7 +60,7 @@ class ListAvailableHoursService {
 
     const availableDates = schedule.map(time => {
       const [hour, minute] = time.hour.split(':');
-      const valueBeforeTimezone = setSeconds(
+      const value = setSeconds(
         setMinutes(setHours(searchDate, Number(hour)), Number(minute)),
         0,
       );
@@ -77,21 +76,11 @@ class ListAvailableHoursService {
         }
       });
 
-      const value =
-        valueBeforeTimezone.getTimezoneOffset() === 180
-          ? valueBeforeTimezone
-          : addHours(valueBeforeTimezone, 1);
-
       return {
         time: time.hour,
-        value: format(value, "yyyy-MM-dd'T'HH:mm:ssxxx"),
+        value: format(value, "yyyy-MM-dd'T'HH:mm:ss'-03:00'"),
         available:
-          isAfter(
-            value,
-            new Date().getTimezoneOffset() === 180
-              ? new Date()
-              : addHours(new Date(), 1),
-          ) &&
+          isAfter(value, new Date()) &&
           count < time.appointmentQuantity &&
           !format(value, "yyyy-MM-dd'T'HH:mm:ss-EEEExxx").includes(
             'Saturday',
