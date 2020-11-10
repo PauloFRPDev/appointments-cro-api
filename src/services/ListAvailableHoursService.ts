@@ -70,7 +70,12 @@ class ListAvailableHoursService {
 
       appointments.forEach(appointment => {
         if (
-          format(appointment.date, 'HH:mm') === time.hour &&
+          format(
+            appointment.date.getTimezoneOffset() === 180
+              ? appointment.date
+              : addHours(appointment.date, 1),
+            'HH:mm',
+          ) === time.hour &&
           appointment.status_id !== 5
         ) {
           count += 1;
