@@ -5,6 +5,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import 'express-async-errors';
+
 import routes from './routes';
 import AppError from './errors/AppError';
 

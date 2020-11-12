@@ -41,6 +41,10 @@ class CreateServiceQueueService {
       throw new AppError('Appointment does not exists');
     }
 
+    if (Number(appointment.status_id) !== 1) {
+      throw new AppError("Appointment's status must be 1 to be called");
+    }
+
     const serviceQueue = servicesQueueRepository.create({
       user_id,
       employee_id,

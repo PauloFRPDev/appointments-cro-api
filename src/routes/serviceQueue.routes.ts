@@ -1,5 +1,6 @@
 import { Router } from 'express';
-import { getRepository } from 'typeorm';
+import { Between, getRepository } from 'typeorm';
+import { startOfDay, endOfDay } from 'date-fns';
 
 import EnsureAuthenticated from '../middlewares/ensureAuthenticated';
 import EnsureIsProvider from '../middlewares/ensureIsProvider';
@@ -16,6 +17,9 @@ serviceQueueRouter.get('/', async (request, response) => {
 
   const serviceQueues = await serviceQueueRepository.find({
     relations: ['user', 'appointment', 'employee'],
+    where: {
+      created_at: Between(startOfDay(new Date()), endOfDay(new Date())),
+    },
     order: {
       created_at: 'DESC',
     },
