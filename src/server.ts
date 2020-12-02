@@ -5,7 +5,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import 'express-async-errors';
-import socketIo from 'socket.io';
+// import socketIo from 'socket.io';
 import http from 'http';
 
 import routes from './routes';
