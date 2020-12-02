@@ -16,12 +16,12 @@ import './database';
 const app = express();
 const server = http.createServer(app);
 
-app.use(
-  cors({
-    allowedHeaders: ['Access-Control-Allow-Origin'],
-    origin: '*',
-  }),
-);
+app.use((request: Request, response: Response, next: NextFunction) => {
+  response.header('Access-Control-Allow-Origin', '*');
+
+  app.use(cors());
+  next();
+});
 app.use(helmet());
 app.use(express.json());
 app.use(routes);
