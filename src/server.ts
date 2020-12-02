@@ -40,18 +40,18 @@ app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
   });
 });
 
-const io = socketIo(server, {
-  cors: {
-    origins: 'http://localhost:3333',
-    allowedHeaders: ['Access-Control-Allow-Origin'],
-  },
-});
+// const io = socketIo(server, {
+//   cors: {
+//     origins: 'http://localhost:3333',
+//     allowedHeaders: ['Access-Control-Allow-Origin'],
+//   },
+// });
 
-io.on('connection', socket => {
-  socket.on('test', msg => {
-    io.emit('test', msg);
-  });
-});
+// io.on('connection', socket => {
+//   socket.on('test', msg => {
+//     io.emit('test', msg);
+//   });
+// });
 
 server.listen(3333, () => {
   console.log('🚀 Server started on port 3333!');
