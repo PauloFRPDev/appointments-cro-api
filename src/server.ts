@@ -18,7 +18,8 @@ const server = http.createServer(app);
 
 app.use(
   cors({
-    origin: 'https://agendamento-web.cro-rj.org.br',
+    allowedHeaders: ['Access-Control-Allow-Origin'],
+    origin: '*',
   }),
 );
 app.use(helmet());
