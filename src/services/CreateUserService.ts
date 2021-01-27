@@ -10,6 +10,7 @@ interface Request {
   name: string;
   email: string;
   password: string;
+  password_confirmation: string;
   isProvider: number;
 }
 
@@ -18,6 +19,7 @@ class CreateUserService {
     name,
     email,
     password,
+    password_confirmation,
     isProvider,
   }: Request): Promise<User> {
     const usersRepository = getRepository(User);
@@ -28,6 +30,14 @@ class CreateUserService {
 
     if (checkUserExists) {
       throw new AppError('E-mail adress already used');
+    }
+
+    if (!password_confirmation) {
+      throw new AppError('You must give a password confirmation');
+    }
+
+    if (password !== password_confirmation) {
+      throw new AppError("Password confirmation doesn't match");
     }
 
     const hashedPassword = await hash(password, 8);
