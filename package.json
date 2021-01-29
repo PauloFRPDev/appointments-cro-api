@@ -7,7 +7,7 @@
     "start": "node dist/server.js",
     "build": "tsc && tscpaths -p tsconfig.json -s ./src -o ./dist",
     "dev:server": "ts-node-dev --poll --inspect --transpileOnly --ignore-watch node_modules src/server.ts",
-    "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js"
+    "typeorm": "ts-node-dev --poll ./node_modules/typeorm/cli.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
