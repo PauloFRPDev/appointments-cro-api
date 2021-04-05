@@ -4,9 +4,11 @@ import {
   setSeconds,
   setMinutes,
   setHours,
+  setMilliseconds,
   isAfter,
   startOfDay,
   endOfDay,
+  isEqual,
 } from 'date-fns';
 
 import {
@@ -15,6 +17,7 @@ import {
   TimeDTO,
   LibraryStudyHour,
 } from '../config/available';
+import { holidays, libraryVacation, mumpsMigration } from '../config/holiday';
 
 import AppointmentsRepository from '../repositories/AppointmentsRepository';
 
@@ -64,6 +67,20 @@ class ListAvailableHoursService {
         setMinutes(setHours(searchDate, Number(hour)), Number(minute)),
         0,
       );
+      const invalidDates = holidays
+        .concat(libraryVacation.concat(mumpsMigration))
+        .filter(holidayDate =>
+          isEqual(
+            setMilliseconds(
+              setSeconds(setMinutes(setHours(holidayDate, 1), 0), 0),
+              0,
+            ),
+            setMilliseconds(
+              setSeconds(setMinutes(setHours(searchDate, 1), 0), 0),
+              0,
+            ),
+          ),
+        );
 
       let count = 0;
 
@@ -81,6 +98,7 @@ class ListAvailableHoursService {
         value: format(value, "yyyy-MM-dd'T'HH:mm:ssxxx"),
         available:
           isAfter(value, new Date()) &&
+          invalidDates.length === 0 &&
           count < time.appointmentQuantity &&
           !format(value, "yyyy-MM-dd'T'HH:mm:ss-EEEExxx").includes(
             'Saturday',
