@@ -47,7 +47,7 @@ export default class MailProvider {
     await this.client.sendMail({
       from: {
         name: from?.name || 'CRO-RJ',
-        address: from?.email || 'paulofelippe@cro-rj.org.br',
+        address: from?.email || mailConfig.auth.user,
       },
       to,
       subject,

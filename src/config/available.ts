@@ -12,6 +12,7 @@ export const AttendanceHour = [
   { hour: '14:00', appointmentQuantity: 3 },
   { hour: '15:00', appointmentQuantity: 3 },
   { hour: '16:00', appointmentQuantity: 3 },
+  { hour: '17:00', appointmentQuantity: 3 },
 ] as TimeDTO[];
 
 export const LibraryHour = [
